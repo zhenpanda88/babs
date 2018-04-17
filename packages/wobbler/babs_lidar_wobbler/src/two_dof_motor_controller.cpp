@@ -122,7 +122,7 @@ int main(int argc, char **argv) {
         front_command = 1000;
         rear_command = 1000;
     }
-    /*else
+    else
     {
         if(g_current_front_angle > input_command_1 && g_current_rear_angle > input_command_2)
         {
@@ -148,7 +148,7 @@ int main(int argc, char **argv) {
         {
             front_command = g_current_front_angle;
         }
-    }*/
+    }
     // Let user know what initial value of the angle we are going to command
     ROS_INFO("front motor angle starting command is at %d", front_command);
     ROS_INFO("rear motor angle starting command is at %d", rear_command);
@@ -172,15 +172,12 @@ int main(int argc, char **argv) {
     // do work here in infinite loop (desired for this example)
     while (ros::ok()) 
     {
+        
         // Only check params every X loops
         if (loop_counter % 10 == 0)
         {
             // Check if controller parameters are available. If not, choose some defaults
-            if(!nh.getParam("/motor_test/wobble_speed", change_ang))
-            {
-                change_ang = 1;
-                ROS_INFO("Could not get change ang for motor_wobble, setting to %d", change_ang);
-            }
+                change_ang = 1;   
         }
 
         loop_counter++;
@@ -188,6 +185,7 @@ int main(int argc, char **argv) {
         // Cast data to a "short int" so it will be compatible with ROS
 
         input_command_1 = (short int)input_command_1;
+        input_command_2 = (short int)input_command_2;
         change_ang = (short int)change_ang;
 
         // Change our commanded angle as appropriate

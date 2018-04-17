@@ -2,6 +2,13 @@
 # Written January 28 2017
 # Updated April 15 2017
 
+# Updated Feb 20 2018 
+# cxy231@case.edu
+
+#===========FISHEYE_CAM======================
+#SUBSYSTEM=="usb", ATTR{idProduct}=="9601", ATTR{product}=="Stereo Vision 1", SYMLINK+="Fisheye_Camera"
+
+
 # Main SICK LIDAR (normal USB cable that used to be ttyUSB1) 
 SUBSYSTEM=="tty", ATTRS{idVendor}=="0403", ATTRS{idProduct}=="6001", ATTRS{serial}=="FTDGL7UE", SYMLINK+="sensor-sick_lidar"
 
@@ -19,6 +26,7 @@ SUBSYSTEM=="tty", ATTRS{idVendor}=="067b", ATTRS{idProduct}=="2303", SYMLINK+="s
 # Motor Controller
 SUBSYSTEM=="tty", ATTRS{idVendor}=="20d2", ATTRS{idProduct}=="5740", SYMLINK+="sensor-roboteq_motors"
 # NOTE: test
+
 
 
 

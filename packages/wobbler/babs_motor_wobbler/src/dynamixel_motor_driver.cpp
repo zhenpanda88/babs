@@ -1,15 +1,15 @@
 // Trent Ziemer 2/8/17 for Sentry Wobbler
 // Based on basic given WSN Low-level C code for Dynamixel motor communication with ROS nodes
 
-#include<ros/ros.h> 
-#include<std_msgs/Int16.h> 
+#include <ros/ros.h> 
+#include <std_msgs/Int16.h> 
 #include <linux/serial.h>
 #include <termios.h>
 
 // Default settings
-#define DEFAULT_BAUDNUM		1 // code "1" --> 1Mbps
+#define DEFAULT_BAUDNUM		41 // code "1" --> 1Mbps
 #define DEFAULT_ID		1 //this is the motor ID
-#define DEFAULT_TTY_NUM			0 // typically, 0 for /dev/ttyUSB0
+#define DEFAULT_TTY_NUM			999 // typically, 0 for /dev/ttyUSB0
 
 // Prevent C++ name mangling of Dynamixels C header and C source files that we want to use
 extern "C" { 
@@ -120,7 +120,7 @@ int main(int argc, char **argv)
     if(!node.getParam("dynamixel_motor_driver/motor_baud", motor_baud))
     {
       ROS_WARN("Warning, could not find appropriate dynamixel motor baud rate to connect at. Could cause motors to not function.");
-      motor_baud = 34;
+      motor_baud = 41;
     }
   }
   
@@ -145,8 +145,8 @@ int main(int argc, char **argv)
   short int rear_motor_ang = 0;
 
   ROS_INFO("Attempting communication with following motors:");
-  ROS_INFO("  @ motor_id %d at baudrate code %d",g_front_motor_id, motor_baud);
-  ROS_INFO("  @ motor_id %d at baudrate code %d",g_rear_motor_id, motor_baud);
+  ROS_INFO("  @ front_motor_id %d at baudrate code %d",g_front_motor_id, motor_baud);
+  ROS_INFO("  @ rear_motor_id %d at baudrate code %d",g_rear_motor_id, motor_baud);
 
   // Main program loop to read motor positions from device and push them to ROS topics for each motor
   while(ros::ok()) 

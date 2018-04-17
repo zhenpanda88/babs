@@ -11,7 +11,7 @@
 
 		<!-- Dynamixel motor connection parameters -->
 		<param name="motor_tty" value="999" />
-		<param name="motor_baud" value="34" />
+		<param name="motor_baud" value="41" />
 
 	</node>
 
