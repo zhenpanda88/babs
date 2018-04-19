@@ -73,19 +73,52 @@ int main(int argc, char **argv) {
     int input_command_1;
     int input_command_2;
 
+    double q1;
+    double q2;
+    double x;
+    double y;
+
+    /*
+    std::cout << "Enter desired x displacement: ";
+    std::cin >> x;
+    std::cout << "Enter desired y displacement: ";
+    std::cin >> y;
+    
+
+    q2 = acos((x*x + y*y - (0.3775)*(0.3775) - (0.33)*(0.33))/(2*0.3775*0.33)) * (180/M_PI);
+    q1 = (atan(y/x) - atan((0.33*sin(q2*(M_PI/180)))/(0.3775+0.33*cos(q2*(M_PI/180))))) * (180/M_PI);
+
+    ROS_INFO("q1: %f; q2: %f", q1,q2);  
+    */
+    
+    
     std::cout << "Enter desired angle for inner motor (don't forget about 3:1 gear ratio): ";
     std::cin >> input_command_1_ang;
     std::cout << "Enter desired angle for outer motor: ";
     std::cin >>input_command_2_ang;
+    
+
+    //input_command_1_ang = q1;
+    //input_command_2_ang = q2;
 
     //converts angle to dynamixel friendly command: 0-4096 range
-    input_command_1_temp = (input_command_1_ang)*11.3777777778;
+    //SHOULDER
+    if(input_command_1_ang < 0)
+        input_command_1_temp = 2048-((2048-(input_command_1_ang*11.3777777778))*0.3333333333);
+    else
+        input_command_1_temp = 2048+((2048-(input_command_1_ang*11.3777777778))*0.3333333333);
+    if(input_command_1_ang == 180)
+    {
+        input_command_1_temp = 2048;
+    }
     input_command_1 = (int)input_command_1_temp;
-    ROS_INFO("input_command is %d; input_command_ang is %f", input_command_1, input_command_1_ang);
+    ROS_INFO("shoulder input_command is %d; shoulder input_command_ang is %f", input_command_1, input_command_1_ang);
 
+    //ELBOW
     input_command_2_temp = (input_command_2_ang)*11.3777777778;
+    input_command_2_temp = 2048+(2048-input_command_2_temp);
     input_command_2 = (int)input_command_2_temp;
-    ROS_INFO("input_command is %d; input_command_ang is %f", input_command_2, input_command_2_ang);
+    ROS_INFO("elbow input_command is %d; elbow input_command_ang is %f", input_command_2, input_command_2_ang);
 
 
     // THIS IS INITIAL ONE FOR HACKY INITIAL COMMAND SETTING. This is also checked in main program loop below
@@ -94,22 +127,22 @@ int main(int argc, char **argv) {
     if(input_command_1<1012)
     {
         input_command_1 = 1012;
-        ROS_WARN("WARNING: ENTERED POSITION GOES BEYOND PHYSICAL LIMITS; Setting outer motor position to 1012");
+        ROS_WARN("WARNING: ENTERED POSITION GOES BEYOND PHYSICAL LIMITS; Setting inner motor position to 1012");
     }
     if(input_command_1>3036)
     {
         input_command_1 = 3036;
-        ROS_WARN("WARNING: ENTERED POSITION GOES BEYOND PHYSICAL LIMITS; Setting outer motor position to 3036");
+        ROS_WARN("WARNING: ENTERED POSITION GOES BEYOND PHYSICAL LIMITS; Setting inner motor position to 3036");
     }
     if(input_command_2<1012)
     {
         input_command_2 = 1012;
-        ROS_WARN("WARNING: ENTERED POSITION GOES BEYOND PHYSICAL LIMITS; Setting inner motor position to 1012");
+        ROS_WARN("WARNING: ENTERED POSITION GOES BEYOND PHYSICAL LIMITS; Setting outer motor position to 1012");
     }
     if(input_command_2>3036)
     {
         input_command_2 = 3036;
-        ROS_WARN("WARNING: ENTERED POSITION GOES BEYOND PHYSICAL LIMITS; Setting inner motor position to 3036");
+        ROS_WARN("WARNING: ENTERED POSITION GOES BEYOND PHYSICAL LIMITS; Setting outer motor position to 3036");
     }
     // This value goes "into" the ROS message object.
     short int front_command = g_current_front_angle;

@@ -28,6 +28,7 @@ cs_add_executable(wobbler_laser_tf src/wobbler_laser_tf.cpp)
 cs_add_executable(hokuyo_pcl_stitcher src/hokuyo_pcl_stitcher.cpp)
 cs_add_executable(wobbler_transformer src/wobbler_transformer.cpp)
 cs_add_executable(two_dof_motor_controller src/two_dof_motor_controller.cpp)
+cs_add_executable(two_dof_ang_controller src/two_dof_ang_controller.cpp)
 
 cs_install()
 cs_export()
